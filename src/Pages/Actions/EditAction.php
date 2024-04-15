@@ -5,8 +5,8 @@ namespace GeoSot\FilamentEnvEditor\Pages\Actions;
 use Filament\Forms\Components\TextInput;
 use Filament\Support\Colors\Color;
 use Filament\Support\Enums\ActionSize;
+use GeoSot\EnvEditor\Dto\EntryObj;
 use GeoSot\EnvEditor\Facades\EnvEditor;
-use GeoSot\EnvEditor\Helpers\EntryObj;
 use GeoSot\FilamentEnvEditor\Pages\ViewEnv;
 
 class EditAction extends \Filament\Forms\Components\Actions\Action
@@ -41,8 +41,9 @@ class EditAction extends \Filament\Forms\Components\Actions\Action
             $page->refresh();
         });
         $this->size(ActionSize::Small);
+        $this->outlined();
         $this->modalIcon('heroicon-c-cog-8-tooth');
-        $this->modalHeading(__('filament-env-editor::filament-env-editor.page.actions.edit.modal.text'));
-        $this->tooltip(fn (): string => __('filament-env-editor::filament-env-editor.page.actions.edit.tooltip', ['name' => $this->entry->key]));
+        $this->modalHeading(__('filament-env-editor::filament-env-editor.actions.edit.modal.text'));
+        $this->tooltip(fn (): string => __('filament-env-editor::filament-env-editor.actions.edit.tooltip', ['name' => $this->entry->key]));
     }
 }

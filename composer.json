@@ -43,7 +43,7 @@
     "scripts": {
         "phpstan": "php --version && php vendor/bin/phpstan --version && php -d memory_limit=1G vendor/bin/phpstan analyse -c ruleset-phpstan.neon  -vvv",
         "cs": "./vendor/bin/php-cs-fixer fix -vvv --show-progress=dots --config=ruleset-php_cs.php",
-        "test-all": [
+        "all": [
             "@phpstan",
             "@cs"
         ]
@@ -58,6 +58,6 @@
             ]
         }
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true
 }

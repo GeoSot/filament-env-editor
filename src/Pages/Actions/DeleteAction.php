@@ -5,8 +5,8 @@ namespace GeoSot\FilamentEnvEditor\Pages\Actions;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Support\Colors\Color;
 use Filament\Support\Enums\ActionSize;
+use GeoSot\EnvEditor\Dto\EntryObj;
 use GeoSot\EnvEditor\Facades\EnvEditor;
-use GeoSot\EnvEditor\Helpers\EntryObj;
 use GeoSot\FilamentEnvEditor\Pages\ViewEnv;
 
 class DeleteAction extends Action
@@ -38,10 +38,10 @@ class DeleteAction extends Action
         });
 
         $this->size(ActionSize::Small);
-        $this->tooltip(fn (): string => __('filament-env-editor::filament-env-editor.page.actions.delete.tooltip', ['name' => $this->entry->key]));
+        $this->tooltip(fn (): string => __('filament-env-editor::filament-env-editor.actions.delete.tooltip', ['name' => $this->entry->key]));
         $this->modalIcon('heroicon-o-trash');
-        $this->modalHeading(fn (): string => __('filament-env-editor::filament-env-editor.page.actions.delete.confirm.title', ['name' => $this->entry->key]));
-
+        $this->modalHeading(fn (): string => __('filament-env-editor::filament-env-editor.actions.delete.confirm.title', ['name' => $this->entry->key]));
+        $this->outlined();
         $this->requiresConfirmation();
     }
 }

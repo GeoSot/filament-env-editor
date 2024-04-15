@@ -20,8 +20,8 @@ class OptimizeClearAction extends Action
         parent::setUp();
 
         $this->outlined();
-        $this->label(fn (): string => __('filament-env-editor::filament-env-editor.page.actions.clear-cache.title'));
-        $this->tooltip(fn (): string => __('filament-env-editor::filament-env-editor.page.actions.clear-cache.tooltip'));
+        $this->label(fn (): string => __('filament-env-editor::filament-env-editor.actions.clear-cache.title'));
+        $this->tooltip(fn (): string => __('filament-env-editor::filament-env-editor.actions.clear-cache.tooltip'));
         $this->action(function () {
             $result = Artisan::call(OptimizeClearCommand::class);
 
