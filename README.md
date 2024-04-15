@@ -4,11 +4,12 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/geo-sot/filament-env-editor.svg?style=flat-square)](https://packagist.org/packages/geo-sot/filament-env-editor)
 
 <p align="center">
-    <img src="https://github.com/GeoSot/laravel-env-editor/assets/22406063/010b045c-842c-4e77-8426-36708bafde85" alt="Banner" style="width: 100%; max-width: 800px; border-radius: 10px" />
+    <img src="https://github.com/GeoSot/filament-env-editor/assets/22406063/e53b56d9-3e2d-4943-b1bd-4b18b6d5fc15" alt="Banner" style="width: 100%; max-width: 800px; border-radius: 10px" />
 </p>
 
-# Features
-
+ A Simple .env file Viewer plugin for your Filament Panels.
+ 
+ Provides features like, manage current .env variables, and a handy backup functionality page
 
 
 <br>
