@@ -83,7 +83,7 @@ class ViewEnv extends BaseViewEnvEditor
 use App\Filament\Pages\ViewEnv;
 
 FilamentEnvEditorPlugin::make()
-  ->viewLog(ViewEnv::class)
+  ->viewPage(ViewEnv::class)
 ```
 
 ## Contributing
