@@ -24,7 +24,7 @@ composer require geo-sot/filament-env-editor
 
 ## Usage
 
-Add the `GeoSot\FilamentEnvEditor\FilamentLEnvEditorPlugin` to your panel config.
+Add the `GeoSot\FilamentEnvEditor\FilamentEnvEditorPlugin` to your panel config.
 
 ```php
 use GeoSot\FilamentEnvEditor\FilamentEnvEditorPlugin;
@@ -47,7 +47,7 @@ class AdminPanelProvider extends PanelProvider
 ### Customizing the navigation item
 
 ```php
-FilamentLEnvEditorPlugin::make()
+FilamentEnvEditorPlugin::make()
     ->navigationGroup('System Tools')
     ->navigationLabel('My Env')
     ->navigationIcon('heroicon-o-cog-8-tooth')
@@ -60,7 +60,7 @@ FilamentLEnvEditorPlugin::make()
 If you would like to prevent certain users from accessing the logs page, you should add a `authorize` callback in the FilamentLEnvEditorPlugin chain.
 
 ```php
-FilamentLEnvEditorPlugin::make()
+FilamentEnvEditorPlugin::make()
   ->authorize(
       fn () => auth()->user()->isAdmin()
   )
@@ -82,7 +82,7 @@ class ViewEnv extends BaseViewEnvEditor
 ```php
 use App\Filament\Pages\ViewEnv;
 
-FilamentLEnvEditorPlugin::make()
+FilamentEnvEditorPlugin::make()
   ->viewLog(ViewEnv::class)
 ```
 
