@@ -36,6 +36,11 @@ class ViewEnv extends Page
 
     protected static string $view = 'filament-env-editor::view-editor';
 
+    /**
+     * @var list<mixed>
+     */
+    public array $data = [];
+
     protected function getHeaderActions(): array
     {
         return [
