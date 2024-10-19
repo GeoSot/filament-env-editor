@@ -25,6 +25,8 @@ class FilamentEnvEditorPlugin implements Plugin
 
     protected string|\Closure $slug = 'env-editor';
 
+    protected array $hideKeys = [];
+
     public function getId(): string
     {
         return 'filament-env-editor';
@@ -49,9 +51,7 @@ class FilamentEnvEditorPlugin implements Plugin
             ]);
     }
 
-    public function boot(Panel $panel): void
-    {
-    }
+    public function boot(Panel $panel): void {}
 
     public function authorize(bool|\Closure $callback = true): static
     {
@@ -133,5 +133,17 @@ class FilamentEnvEditorPlugin implements Plugin
     public function getSlug(): string
     {
         return $this->evaluate($this->slug);
+    }
+
+    public function hideKeys(array $keys): static
+    {
+        $this->hideKeys = $keys;
+
+        return $this;
+    }
+
+    public function getHideKeys(): array
+    {
+        return $this->hideKeys;
     }
 }

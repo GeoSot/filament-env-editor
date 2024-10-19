@@ -62,9 +62,7 @@ class ViewEnv extends Page
             ->schema([$tabs]);
     }
 
-    public function refresh(): void
-    {
-    }
+    public function refresh(): void {}
 
     public static function getNavigationGroup(): ?string
     {
@@ -96,6 +94,11 @@ class ViewEnv extends Page
         return __('filament-env-editor::filament-env-editor.page.title');
     }
 
+    protected function getHiddenKeys(): array
+    {
+        return FilamentEnvEditorPlugin::get()->getHideKeys();
+    }
+
     public static function canAccess(): bool
     {
         return FilamentEnvEditorPlugin::get()->isAuthorized();
@@ -107,10 +110,12 @@ class ViewEnv extends Page
     private function getFirstTab(): array
     {
         $envData = EnvEditor::getEnvFileContent()
-            ->filter(fn (EntryObj $obj) => !$obj->isSeparator())
+            ->filter(fn(EntryObj $obj) => !$obj->isSeparator())
             ->groupBy('group')
             ->map(function (Collection $group) {
-                $fields = $group->map(function (EntryObj $obj) {
+                $fields = $group->filter(function (EntryObj $obj) {
+                    return !$this->shouldHideEnvVariable($obj->key);
+                })->map(function (EntryObj $obj) {
                     return Forms\Components\Group::make([
                         Forms\Components\Actions::make([
                             EditAction::make("edit_{$obj->key}")->setEntry($obj),
@@ -123,8 +128,12 @@ class ViewEnv extends Page
                     ])->columns(5);
                 });
 
-                return Forms\Components\Section::make()->schema($fields->all())->columns(1);
-            })->all();
+                return $fields->isNotEmpty()
+                    ? Forms\Components\Section::make()->schema($fields->all())->columns(1)
+                    : null;
+            })
+            ->filter()
+            ->all();
 
         $header = Forms\Components\Group::make([
             Forms\Components\Actions::make([
@@ -134,6 +143,12 @@ class ViewEnv extends Page
 
         return [$header, ...$envData];
     }
+
+    private function shouldHideEnvVariable(string $key): bool
+    {
+        return in_array($key, FilamentEnvEditorPlugin::get()->getHideKeys());
+    }
+
 
     /**
      * @return list<Component>
