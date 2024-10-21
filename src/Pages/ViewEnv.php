@@ -127,7 +127,7 @@ class ViewEnv extends Page
 
                 return Forms\Components\Section::make()->schema($fields->all())->columns(1);
             })
-            ->filter()
+            ->filter(fn (Forms\Components\Section $s) => $s->hasChildComponentContainer(true))
             ->all();
 
         $header = Forms\Components\Group::make([
