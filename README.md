@@ -7,9 +7,10 @@
     <img src="https://github.com/GeoSot/filament-env-editor/assets/22406063/e53b56d9-3e2d-4943-b1bd-4b18b6d5fc15" alt="Banner" style="width: 100%; max-width: 800px; border-radius: 10px" />
 </p>
 
-A Simple .env file Viewer plugin for your Filament Panels.
+ A Simple .env file Viewer plugin for your Filament Panels.
+ 
+ Provides features like, manage current .env variables, and a handy backup functionality page
 
-Provides features like, manage current .env variables, and a handy backup functionality page
 
 <br>
 
@@ -60,7 +61,7 @@ Some keys you may consider to be particularly sensitive and don't wish to expose
 
 ```php
 FilamentEnvEditorPlugin::make()
-    ->hideKeys(['APP_KEY', 'BCRYPT_ROUNDS'])
+    ->hideKeys('APP_KEY', 'BCRYPT_ROUNDS')
 ```
 
 ### Authorization
@@ -97,6 +98,7 @@ FilamentEnvEditorPlugin::make()
 ## Contributing
 
 Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
+
 
 ## License
 

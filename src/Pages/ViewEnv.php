@@ -62,7 +62,9 @@ class ViewEnv extends Page
             ->schema([$tabs]);
     }
 
-    public function refresh(): void {}
+    public function refresh(): void
+    {
+    }
 
     public static function getNavigationGroup(): ?string
     {
@@ -94,11 +96,6 @@ class ViewEnv extends Page
         return __('filament-env-editor::filament-env-editor.page.title');
     }
 
-    protected function getHiddenKeys(): array
-    {
-        return FilamentEnvEditorPlugin::get()->getHideKeys();
-    }
-
     public static function canAccess(): bool
     {
         return FilamentEnvEditorPlugin::get()->isAuthorized();
@@ -110,27 +107,25 @@ class ViewEnv extends Page
     private function getFirstTab(): array
     {
         $envData = EnvEditor::getEnvFileContent()
-            ->filter(fn(EntryObj $obj) => !$obj->isSeparator())
+            ->filter(fn (EntryObj $obj) => !$obj->isSeparator())
             ->groupBy('group')
             ->map(function (Collection $group) {
-                $fields = $group->filter(function (EntryObj $obj) {
-                    return !$this->shouldHideEnvVariable($obj->key);
-                })->map(function (EntryObj $obj) {
-                    return Forms\Components\Group::make([
-                        Forms\Components\Actions::make([
-                            EditAction::make("edit_{$obj->key}")->setEntry($obj),
-                            DeleteAction::make("delete_{$obj->key}")->setEntry($obj),
-                        ])->alignEnd(),
-                        Forms\Components\Placeholder::make($obj->key)
-                            ->label('')
-                            ->content(new HtmlString("<code>{$obj->getAsEnvLine()}</code>"))
-                            ->columnSpan(4),
-                    ])->columns(5);
-                });
+                $fields = $group
+                    ->reject(fn (EntryObj $obj) => $this->shouldHideEnvVariable($obj->key))
+                    ->map(function (EntryObj $obj) {
+                        return Forms\Components\Group::make([
+                            Forms\Components\Actions::make([
+                                EditAction::make("edit_{$obj->key}")->setEntry($obj),
+                                DeleteAction::make("delete_{$obj->key}")->setEntry($obj),
+                            ])->alignEnd(),
+                            Forms\Components\Placeholder::make($obj->key)
+                                ->label('')
+                                ->content(new HtmlString("<code>{$obj->getAsEnvLine()}</code>"))
+                                ->columnSpan(4),
+                        ])->columns(5);
+                    });
 
-                return $fields->isNotEmpty()
-                    ? Forms\Components\Section::make()->schema($fields->all())->columns(1)
-                    : null;
+                return Forms\Components\Section::make()->schema($fields->all())->columns(1);
             })
             ->filter()
             ->all();
@@ -146,9 +141,8 @@ class ViewEnv extends Page
 
     private function shouldHideEnvVariable(string $key): bool
     {
-        return in_array($key, FilamentEnvEditorPlugin::get()->getHideKeys());
+        return in_array($key, FilamentEnvEditorPlugin::get()->getHiddenKeys());
     }
-
 
     /**
      * @return list<Component>

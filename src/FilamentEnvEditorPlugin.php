@@ -25,6 +25,9 @@ class FilamentEnvEditorPlugin implements Plugin
 
     protected string|\Closure $slug = 'env-editor';
 
+    /**
+     * @var list<string>
+     */
     protected array $hideKeys = [];
 
     public function getId(): string
@@ -51,7 +54,9 @@ class FilamentEnvEditorPlugin implements Plugin
             ]);
     }
 
-    public function boot(Panel $panel): void {}
+    public function boot(Panel $panel): void
+    {
+    }
 
     public function authorize(bool|\Closure $callback = true): static
     {
@@ -135,14 +140,19 @@ class FilamentEnvEditorPlugin implements Plugin
         return $this->evaluate($this->slug);
     }
 
-    public function hideKeys(array $keys): static
+    public function hideKeys(string ...$keys): static
     {
         $this->hideKeys = $keys;
 
         return $this;
     }
 
-    public function getHideKeys(): array
+    /**
+     * Retrieves the list of environment keys that should be hidden from the UI.
+     *
+     * @return list<string>
+     */
+    public function getHiddenKeys(): array
     {
         return $this->hideKeys;
     }
