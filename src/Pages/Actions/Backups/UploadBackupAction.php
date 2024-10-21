@@ -20,7 +20,7 @@ class UploadBackupAction extends Action
         $this->form([
             FileUpload::make('file')->saveUploadedFileUsing(static function (
                 BaseFileUpload $component,
-                TemporaryUploadedFile $file
+                TemporaryUploadedFile $file,
             ): ?string {
                 $backupsPath = app(EnvEditor::class)->getFilesManager()->getBackupsDir();
 

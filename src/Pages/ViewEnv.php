@@ -110,21 +110,25 @@ class ViewEnv extends Page
             ->filter(fn (EntryObj $obj) => !$obj->isSeparator())
             ->groupBy('group')
             ->map(function (Collection $group) {
-                $fields = $group->map(function (EntryObj $obj) {
-                    return Forms\Components\Group::make([
-                        Forms\Components\Actions::make([
-                            EditAction::make("edit_{$obj->key}")->setEntry($obj),
-                            DeleteAction::make("delete_{$obj->key}")->setEntry($obj),
-                        ])->alignEnd(),
-                        Forms\Components\Placeholder::make($obj->key)
-                            ->label('')
-                            ->content(new HtmlString("<code>{$obj->getAsEnvLine()}</code>"))
-                            ->columnSpan(4),
-                    ])->columns(5);
-                });
+                $fields = $group
+                    ->reject(fn (EntryObj $obj) => $this->shouldHideEnvVariable($obj->key))
+                    ->map(function (EntryObj $obj) {
+                        return Forms\Components\Group::make([
+                            Forms\Components\Actions::make([
+                                EditAction::make("edit_{$obj->key}")->setEntry($obj),
+                                DeleteAction::make("delete_{$obj->key}")->setEntry($obj),
+                            ])->alignEnd(),
+                            Forms\Components\Placeholder::make($obj->key)
+                                ->label('')
+                                ->content(new HtmlString("<code>{$obj->getAsEnvLine()}</code>"))
+                                ->columnSpan(4),
+                        ])->columns(5);
+                    });
 
                 return Forms\Components\Section::make()->schema($fields->all())->columns(1);
-            })->all();
+            })
+            ->filter(fn (Forms\Components\Section $s) => $s->hasChildComponentContainer(true))
+            ->all();
 
         $header = Forms\Components\Group::make([
             Forms\Components\Actions::make([
@@ -133,6 +137,11 @@ class ViewEnv extends Page
         ]);
 
         return [$header, ...$envData];
+    }
+
+    private function shouldHideEnvVariable(string $key): bool
+    {
+        return in_array($key, FilamentEnvEditorPlugin::get()->getHiddenKeys());
     }
 
     /**

@@ -55,8 +55,17 @@ FilamentEnvEditorPlugin::make()
     ->slug('env-editor')
 ```
 
+### Hiding keys
+
+Some keys you may consider to be particularly sensitive and don't wish to expose them, even through this package. You can hide them through this interface:
+
+```php
+FilamentEnvEditorPlugin::make()
+    ->hideKeys('APP_KEY', 'BCRYPT_ROUNDS')
+```
 
 ### Authorization
+
 If you would like to prevent certain users from accessing the logs page, you should add a `authorize` callback in the FilamentLEnvEditorPlugin chain.
 
 ```php
