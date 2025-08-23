@@ -1,6 +1,7 @@
 {
     "name": "geo-sot/filament-env-editor",
     "description": "Access .env file though Filament admin panel",
+    "version": "4.0.0",
     "keywords": [
         "geo-sot",
         "laravel",
@@ -21,19 +22,19 @@
         }
     ],
     "require": {
-        "php": ">=8.1",
-        "filament/filament": "^3.0",
+        "php": "^8.2",
+        "filament/filament": "~4.0",
+        "geo-sot/laravel-env-editor": "^3.0",
         "illuminate/contracts": ">=10.0",
-        "spatie/laravel-package-tools": "^1.15.0",
-        "geo-sot/laravel-env-editor":"^3.0"
+        "spatie/laravel-package-tools": "^1.15.0"
     },
     "require-dev": {
+        "filament/upgrade": "^4.0",
         "friendsofphp/php-cs-fixer": "^3",
-        "larastan/larastan": "^2",
+        "larastan/larastan": "^3.0",
         "orchestra/testbench": ">=9",
-        "phpstan/phpstan-deprecation-rules": "^1.0",
-        "phpstan/phpstan-phpunit": "^1.0"
-
+        "phpstan/phpstan-deprecation-rules": "^2.0",
+        "phpstan/phpstan-phpunit": "^2.0"
     },
     "autoload": {
         "psr-4": {
