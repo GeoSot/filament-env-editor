@@ -2,11 +2,11 @@
 
 namespace GeoSot\FilamentEnvEditor\Pages\Actions;
 
-use Filament\Forms\Components\Actions\Action;
+use Filament\Actions\Action;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Support\Colors\Color;
-use Filament\Support\Enums\MaxWidth;
+use Filament\Support\Enums\Width;
 use GeoSot\EnvEditor\Dto\EntryObj;
 use GeoSot\EnvEditor\Exceptions\EnvException;
 use GeoSot\EnvEditor\Facades\EnvEditor;
@@ -21,11 +21,11 @@ class CreateAction extends Action
     {
         parent::setUp();
 
-        $this->label(fn (): string => __('filament-env-editor::filament-env-editor.actions.add.title'));
-        $this->modalHeading(fn (
+        $this->label(fn(): string => __('filament-env-editor::filament-env-editor.actions.add.title'));
+        $this->modalHeading(fn(
         ): string => __('filament-env-editor::filament-env-editor.actions.add.modalHeading'));
 
-        $this->form([
+        $this->schema([
             TextInput::make('key')
                 ->label(__('filament-env-editor::filament-env-editor.actions.add.form.fields.key'))
                 ->required(),
@@ -34,7 +34,7 @@ class CreateAction extends Action
             Select::make('index')
                 ->label(__('filament-env-editor::filament-env-editor.actions.add.form.fields.index'))
                 ->helperText(__('filament-env-editor::filament-env-editor.actions.add.form.helpText.index'))
-                ->options(fn () => $this->getExistingKeys())
+                ->options(fn() => $this->getExistingKeys())
                 ->searchable(),
         ]);
 
@@ -50,9 +50,11 @@ class CreateAction extends Action
                     $options
                 );
                 $page->refresh();
-                $this->successNotificationTitle(fn (
-                ): string => __('filament-env-editor::filament-env-editor.actions.add.success.title',
-                    ['name' => $data['key']]));
+                $this->successNotificationTitle(fn(
+                ): string => __(
+                        'filament-env-editor::filament-env-editor.actions.add.success.title',
+                        ['name' => $data['key']]
+                    ));
             } catch (EnvException $exception) {
                 $this->failureNotificationTitle($exception->getMessage());
                 $this->failure();
@@ -63,7 +65,7 @@ class CreateAction extends Action
         });
 
         $this->color(Color::Teal);
-        $this->modalWidth(MaxWidth::FitContent);
+        $this->modalWidth(Width::Large);
     }
 
     /**
@@ -72,10 +74,10 @@ class CreateAction extends Action
     private function getExistingKeys(): array
     {
         return EnvEditor::getEnvFileContent()
-            ->filter(fn (EntryObj $obj) => !$obj->isSeparator())
+            ->filter(fn(EntryObj $obj) => !$obj->isSeparator())
             ->groupBy('group')
-            ->keyBy(fn (Collection $c): string => Str::of($c->first()->key)->before('_')->remove('#')->lower()->prepend('--- '))
-            ->map(fn (Collection $c): Collection => $c->mapWithKeys(fn (EntryObj $obj) => [$obj->index => $obj->key]))
+            ->keyBy(fn(Collection $c): string => Str::of($c->first()->key)->before('_')->remove('#')->lower()->prepend('--- '))
+            ->map(fn(Collection $c): Collection => $c->mapWithKeys(fn(EntryObj $obj) => [$obj->index => $obj->key]))
             ->toArray();
     }
 }

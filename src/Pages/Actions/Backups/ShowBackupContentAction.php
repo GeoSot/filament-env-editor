@@ -2,10 +2,10 @@
 
 namespace GeoSot\FilamentEnvEditor\Pages\Actions\Backups;
 
-use Filament\Forms\Components\Actions\Action;
+use Filament\Actions\Action;
+use Filament\Support\Enums\Size;
 use Filament\Forms\Components\Placeholder;
 use Filament\Support\Colors\Color;
-use Filament\Support\Enums\ActionSize;
 use GeoSot\EnvEditor\Dto\BackupObj;
 use Illuminate\Support\HtmlString;
 
@@ -35,9 +35,9 @@ class ShowBackupContentAction extends Action
         $this->outlined();
         $this->modalSubmitAction(false);
         $this->icon('heroicon-o-newspaper');
-        $this->size(ActionSize::Small);
+        $this->size(Size::Small);
 
-        $this->form(fn () => [
+        $this->schema(fn () => [
             Placeholder::make('')->content(new HtmlString("<pre>{$this->entry->rawContent}</pre>")),
         ]);
 

@@ -2,6 +2,7 @@
 
 namespace GeoSot\FilamentEnvEditor;
 
+use Closure;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 use Filament\Support\Concerns\EvaluatesClosures;
@@ -11,19 +12,19 @@ class FilamentEnvEditorPlugin implements Plugin
 {
     use EvaluatesClosures;
 
-    protected bool|\Closure $authorizeUsing = true;
+    protected bool|Closure $authorizeUsing = true;
 
     protected string $viewPage = ViewEnv::class;
 
-    protected string|\Closure|null $navigationGroup = null;
+    protected string|Closure|null $navigationGroup = null;
 
-    protected int|\Closure $navigationSort = 1;
+    protected int|Closure $navigationSort = 1;
 
-    protected string|\Closure $navigationIcon = 'heroicon-o-document-text';
+    protected string|Closure $navigationIcon = 'heroicon-o-document-text';
 
-    protected string|\Closure|null $navigationLabel = null;
+    protected string|Closure|null $navigationLabel = null;
 
-    protected string|\Closure $slug = 'env-editor';
+    protected string|Closure $slug = 'env-editor';
 
     /**
      * @var list<string>
@@ -58,7 +59,7 @@ class FilamentEnvEditorPlugin implements Plugin
     {
     }
 
-    public function authorize(bool|\Closure $callback = true): static
+    public function authorize(bool|Closure $callback = true): static
     {
         $this->authorizeUsing = $callback;
 
@@ -80,7 +81,7 @@ class FilamentEnvEditorPlugin implements Plugin
         return $this;
     }
 
-    public function navigationGroup(string|\Closure|null $navigationGroup): static
+    public function navigationGroup(string|Closure|null $navigationGroup): static
     {
         $this->navigationGroup = $navigationGroup;
 
@@ -92,7 +93,7 @@ class FilamentEnvEditorPlugin implements Plugin
         return $this->evaluate($this->navigationGroup) ?? __('filament-env-editor::filament-env-editor.navigation.group');
     }
 
-    public function navigationSort(int|\Closure $navigationSort): static
+    public function navigationSort(int|Closure $navigationSort): static
     {
         $this->navigationSort = $navigationSort;
 
@@ -104,7 +105,7 @@ class FilamentEnvEditorPlugin implements Plugin
         return $this->evaluate($this->navigationSort);
     }
 
-    public function navigationIcon(string|\Closure $navigationIcon): static
+    public function navigationIcon(string|Closure $navigationIcon): static
     {
         $this->navigationIcon = $navigationIcon;
 
@@ -116,7 +117,7 @@ class FilamentEnvEditorPlugin implements Plugin
         return $this->evaluate($this->navigationIcon);
     }
 
-    public function navigationLabel(string|\Closure|null $navigationLabel): static
+    public function navigationLabel(string|Closure|null $navigationLabel): static
     {
         $this->navigationLabel = $navigationLabel;
 
@@ -128,7 +129,7 @@ class FilamentEnvEditorPlugin implements Plugin
         return $this->evaluate($this->navigationLabel) ?? __('filament-env-editor::filament-env-editor.navigation.label');
     }
 
-    public function slug(string|\Closure $slug): static
+    public function slug(string|Closure $slug): static
     {
         $this->slug = $slug;
 

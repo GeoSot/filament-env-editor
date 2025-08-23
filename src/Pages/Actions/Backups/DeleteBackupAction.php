@@ -2,9 +2,9 @@
 
 namespace GeoSot\FilamentEnvEditor\Pages\Actions\Backups;
 
-use Filament\Forms\Components\Actions\Action;
+use Filament\Actions\Action;
+use Filament\Support\Enums\Size;
 use Filament\Support\Colors\Color;
-use Filament\Support\Enums\ActionSize;
 use GeoSot\EnvEditor\Dto\BackupObj;
 use GeoSot\EnvEditor\Facades\EnvEditor;
 use GeoSot\FilamentEnvEditor\Pages\ViewEnv;
@@ -34,7 +34,7 @@ class DeleteBackupAction extends Action
         $this->outlined();
         $this->color(Color::Rose);
 
-        $this->size(ActionSize::Small);
+        $this->size(Size::Small);
         $this->tooltip(fn (): string => __('filament-env-editor::filament-env-editor.actions.delete-backup.tooltip', ['name' => $this->entry->name]));
         $this->modalIcon('heroicon-o-trash');
         $this->modalHeading(fn (): string => __('filament-env-editor::filament-env-editor.actions.delete-backup.confirm.title', ['name' => $this->entry->name]));
