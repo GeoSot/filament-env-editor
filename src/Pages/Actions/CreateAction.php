@@ -2,11 +2,11 @@
 
 namespace GeoSot\FilamentEnvEditor\Pages\Actions;
 
-use Filament\Forms\Components\Actions\Action;
+use Filament\Actions\Action;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Support\Colors\Color;
-use Filament\Support\Enums\MaxWidth;
+use Filament\Support\Enums\Width;
 use GeoSot\EnvEditor\Dto\EntryObj;
 use GeoSot\EnvEditor\Exceptions\EnvException;
 use GeoSot\EnvEditor\Facades\EnvEditor;
@@ -25,7 +25,7 @@ class CreateAction extends Action
         $this->modalHeading(fn (
         ): string => __('filament-env-editor::filament-env-editor.actions.add.modalHeading'));
 
-        $this->form([
+        $this->schema([
             TextInput::make('key')
                 ->label(__('filament-env-editor::filament-env-editor.actions.add.form.fields.key'))
                 ->required(),
@@ -51,8 +51,10 @@ class CreateAction extends Action
                 );
                 $page->refresh();
                 $this->successNotificationTitle(fn (
-                ): string => __('filament-env-editor::filament-env-editor.actions.add.success.title',
-                    ['name' => $data['key']]));
+                ): string => __(
+                    'filament-env-editor::filament-env-editor.actions.add.success.title',
+                    ['name' => $data['key']]
+                ));
             } catch (EnvException $exception) {
                 $this->failureNotificationTitle($exception->getMessage());
                 $this->failure();
@@ -63,7 +65,7 @@ class CreateAction extends Action
         });
 
         $this->color(Color::Teal);
-        $this->modalWidth(MaxWidth::FitContent);
+        $this->modalWidth(Width::Large);
     }
 
     /**

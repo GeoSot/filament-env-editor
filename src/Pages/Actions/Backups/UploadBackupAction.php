@@ -2,7 +2,7 @@
 
 namespace GeoSot\FilamentEnvEditor\Pages\Actions\Backups;
 
-use Filament\Forms\Components\Actions\Action;
+use Filament\Actions\Action;
 use Filament\Forms\Components\BaseFileUpload;
 use Filament\Forms\Components\FileUpload;
 use Filament\Support\Colors\Color;
@@ -17,7 +17,7 @@ class UploadBackupAction extends Action
 
         $this->icon('heroicon-s-document-arrow-up');
         $this->label(fn (): string => __('filament-env-editor::filament-env-editor.actions.upload-backup.title'));
-        $this->form([
+        $this->schema([
             FileUpload::make('file')->saveUploadedFileUsing(static function (
                 BaseFileUpload $component,
                 TemporaryUploadedFile $file,

@@ -2,14 +2,15 @@
 
 namespace GeoSot\FilamentEnvEditor\Pages\Actions;
 
+use Filament\Actions\Action;
 use Filament\Forms\Components\TextInput;
 use Filament\Support\Colors\Color;
-use Filament\Support\Enums\ActionSize;
+use Filament\Support\Enums\Size;
 use GeoSot\EnvEditor\Dto\EntryObj;
 use GeoSot\EnvEditor\Facades\EnvEditor;
 use GeoSot\FilamentEnvEditor\Pages\ViewEnv;
 
-class EditAction extends \Filament\Forms\Components\Actions\Action
+class EditAction extends Action
 {
     private EntryObj $entry;
 
@@ -32,7 +33,7 @@ class EditAction extends \Filament\Forms\Components\Actions\Action
         $this->icon('heroicon-c-cog-8-tooth');
         $this->hiddenLabel();
         $this->color(Color::Sky);
-        $this->form([
+        $this->schema([
             TextInput::make('key')->default(fn () => $this->entry->key)->required(),
             TextInput::make('value')->default(fn () => $this->entry->getValue()),
         ]);
@@ -40,7 +41,7 @@ class EditAction extends \Filament\Forms\Components\Actions\Action
             EnvEditor::editKey($data['key'], $data['value']);
             $page->refresh();
         });
-        $this->size(ActionSize::Small);
+        $this->size(Size::Small);
         $this->outlined();
         $this->modalIcon('heroicon-c-cog-8-tooth');
         $this->modalHeading(__('filament-env-editor::filament-env-editor.actions.edit.modal.text'));

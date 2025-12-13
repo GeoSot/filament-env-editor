@@ -2,7 +2,7 @@
 
 namespace GeoSot\FilamentEnvEditor\Pages\Actions\Backups;
 
-use Filament\Forms\Components\Actions\Action;
+use Filament\Actions\Action;
 use Filament\Support\Colors\Color;
 use GeoSot\EnvEditor\Exceptions\EnvException;
 use GeoSot\EnvEditor\Facades\EnvEditor;
