@@ -3,9 +3,9 @@
 namespace GeoSot\FilamentEnvEditor\Pages\Actions\Backups;
 
 use Filament\Actions\Action;
-use Filament\Support\Enums\Size;
-use Filament\Forms\Components\Placeholder;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Support\Colors\Color;
+use Filament\Support\Enums\Size;
 use GeoSot\EnvEditor\Dto\BackupObj;
 use Illuminate\Support\HtmlString;
 
@@ -38,7 +38,7 @@ class ShowBackupContentAction extends Action
         $this->size(Size::Small);
 
         $this->schema(fn () => [
-            Placeholder::make('')->content(new HtmlString("<pre>{$this->entry->rawContent}</pre>")),
+            TextEntry::make('')->state(new HtmlString("<pre>{$this->entry->rawContent}</pre>")),
         ]);
 
         $this->color(Color::Zinc);

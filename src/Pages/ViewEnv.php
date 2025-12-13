@@ -2,8 +2,7 @@
 
 namespace GeoSot\FilamentEnvEditor\Pages;
 
-use Filament\Forms;
-use Filament\Forms\Components\Placeholder;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Pages\Concerns\HasUnsavedDataChangesAlert;
 use Filament\Pages\Concerns\InteractsWithFormActions;
 use Filament\Pages\Concerns\InteractsWithHeaderActions;
@@ -17,7 +16,6 @@ use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Size;
-use Filament\Tables\Table;
 use GeoSot\EnvEditor\Dto\BackupObj;
 use GeoSot\EnvEditor\Dto\EntryObj;
 use GeoSot\EnvEditor\Facades\EnvEditor;
@@ -114,27 +112,27 @@ class ViewEnv extends Page
     private function getFirstTab(): array
     {
         $envData = EnvEditor::getEnvFileContent()
-            ->filter(fn(EntryObj $obj) => !$obj->isSeparator())
+            ->filter(fn (EntryObj $obj) => !$obj->isSeparator())
             ->groupBy('group')
             ->map(function (Collection $group) {
                 $fields = $group
-                    ->reject(fn(EntryObj $obj) => $this->shouldHideEnvVariable($obj->key))
+                    ->reject(fn (EntryObj $obj) => $this->shouldHideEnvVariable($obj->key))
                     ->map(function (EntryObj $obj) {
                         return Group::make([
                             Actions::make([
                                 EditAction::make("edit_{$obj->key}")->setEntry($obj),
                                 DeleteAction::make("delete_{$obj->key}")->setEntry($obj),
                             ])->alignEnd(),
-                            Placeholder::make($obj->key)
+                            TextEntry::make($obj->key)
                                 ->label('')
-                                ->content(new HtmlString("<code>{$obj->getAsEnvLine()}</code>"))
+                                ->state(new HtmlString("<code>{$obj->getAsEnvLine()}</code>"))
                                 ->columnSpan(4),
                         ])->columns(5);
                     });
 
                 return Section::make()->schema($fields->all())->columns(1);
             })
-            ->filter(fn(Section $s) => $s !== null)
+            ->filter(fn (Section $s) => !empty($s->getChildComponents()))
             ->all();
 
         $header = Group::make([
@@ -165,13 +163,13 @@ class ViewEnv extends Page
                         RestoreBackupAction::make("restore_{$obj->name}")->setEntry($obj->name),
                         ShowBackupContentAction::make("show_raw_content_{$obj->name}")->setEntry($obj),
                     ])->alignEnd(),
-                    Placeholder::make('name')
+                    TextEntry::make('name')
                         ->label('')
-                        ->content(new HtmlString("<strong>{$obj->name}</strong>"))
+                        ->state(new HtmlString("<strong>{$obj->name}</strong>"))
                         ->columnSpan(2),
-                    Placeholder::make('created_at')
+                    TextEntry::make('created_at')
                         ->label('')
-                        ->content($obj->createdAt->format('Y-m-d H:i:s'))
+                        ->state($obj->createdAt->format('Y-m-d H:i:s'))
                         ->columnSpan(2),
                 ])->columns(5);
             })->all();
