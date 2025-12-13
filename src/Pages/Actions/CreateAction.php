@@ -21,8 +21,8 @@ class CreateAction extends Action
     {
         parent::setUp();
 
-        $this->label(fn(): string => __('filament-env-editor::filament-env-editor.actions.add.title'));
-        $this->modalHeading(fn(
+        $this->label(fn (): string => __('filament-env-editor::filament-env-editor.actions.add.title'));
+        $this->modalHeading(fn (
         ): string => __('filament-env-editor::filament-env-editor.actions.add.modalHeading'));
 
         $this->schema([
@@ -34,7 +34,7 @@ class CreateAction extends Action
             Select::make('index')
                 ->label(__('filament-env-editor::filament-env-editor.actions.add.form.fields.index'))
                 ->helperText(__('filament-env-editor::filament-env-editor.actions.add.form.helpText.index'))
-                ->options(fn() => $this->getExistingKeys())
+                ->options(fn () => $this->getExistingKeys())
                 ->searchable(),
         ]);
 
@@ -50,11 +50,11 @@ class CreateAction extends Action
                     $options
                 );
                 $page->refresh();
-                $this->successNotificationTitle(fn(
+                $this->successNotificationTitle(fn (
                 ): string => __(
-                        'filament-env-editor::filament-env-editor.actions.add.success.title',
-                        ['name' => $data['key']]
-                    ));
+                    'filament-env-editor::filament-env-editor.actions.add.success.title',
+                    ['name' => $data['key']]
+                ));
             } catch (EnvException $exception) {
                 $this->failureNotificationTitle($exception->getMessage());
                 $this->failure();
@@ -74,10 +74,10 @@ class CreateAction extends Action
     private function getExistingKeys(): array
     {
         return EnvEditor::getEnvFileContent()
-            ->filter(fn(EntryObj $obj) => !$obj->isSeparator())
+            ->filter(fn (EntryObj $obj) => !$obj->isSeparator())
             ->groupBy('group')
-            ->keyBy(fn(Collection $c): string => Str::of($c->first()->key)->before('_')->remove('#')->lower()->prepend('--- '))
-            ->map(fn(Collection $c): Collection => $c->mapWithKeys(fn(EntryObj $obj) => [$obj->index => $obj->key]))
+            ->keyBy(fn (Collection $c): string => Str::of($c->first()->key)->before('_')->remove('#')->lower()->prepend('--- '))
+            ->map(fn (Collection $c): Collection => $c->mapWithKeys(fn (EntryObj $obj) => [$obj->index => $obj->key]))
             ->toArray();
     }
 }
