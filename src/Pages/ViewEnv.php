@@ -112,11 +112,11 @@ class ViewEnv extends Page
     private function getFirstTab(): array
     {
         $envData = EnvEditor::getEnvFileContent()
-            ->filter(fn (EntryObj $obj) => !$obj->isSeparator())
+            ->filter(fn(EntryObj $obj) => !$obj->isSeparator())
             ->groupBy('group')
             ->map(function (Collection $group) {
                 $fields = $group
-                    ->reject(fn (EntryObj $obj) => $this->shouldHideEnvVariable($obj->key))
+                    ->reject(fn(EntryObj $obj) => $this->shouldHideEnvVariable($obj->key))
                     ->map(function (EntryObj $obj) {
                         return Group::make([
                             Actions::make([
@@ -132,7 +132,7 @@ class ViewEnv extends Page
 
                 return Section::make()->schema($fields->all())->columns(1);
             })
-            ->filter(fn (Section $s) => !empty($s->getChildComponents()))
+            ->filter()
             ->all();
 
         $header = Group::make([
