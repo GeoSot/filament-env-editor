@@ -1,7 +1,6 @@
 {
     "name": "geo-sot/filament-env-editor",
     "description": "Access .env file though Filament admin panel",
-    "version": "5.0.0",
     "keywords": [
         "geo-sot",
         "laravel",
