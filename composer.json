@@ -28,7 +28,7 @@
         "spatie/laravel-package-tools": "^1.15.0"
     },
     "require-dev": {
-        "filament/upgrade": "^4.0",
+        "filament/upgrade": "^5.2",
         "friendsofphp/php-cs-fixer": "^3",
         "larastan/larastan": "^3.0",
         "orchestra/testbench": ">=9",
