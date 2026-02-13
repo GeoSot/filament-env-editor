@@ -2,9 +2,9 @@ name: PHPStan
 
 on:
   push:
-    paths:
-      - '**.php'
-      - 'ruleset-phpstan.neon'
+    branches: [main, v*]
+  pull_request:
+    branches: [main, v*]
 
 jobs:
   phpstan:

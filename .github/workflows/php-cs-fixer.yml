@@ -2,9 +2,9 @@ name: Check & fix styling
 
 on:
   push:
-    branches: [main]
+    branches: [main, v*]
   pull_request:
-    branches: [main]
+    branches: [main, v*]
 
 jobs:
   php-cs-fixer:

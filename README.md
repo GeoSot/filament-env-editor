@@ -21,6 +21,13 @@ You can install the package via composer:
 ```bash
 composer require geo-sot/filament-env-editor
 ```
+Versions supported:
+
+| Filament Version | Package Version |
+|:----------------:|:---------------:|
+| 3.x             | 0.x              |
+| 4.x             | 1.x              |
+
 
 ## Usage
 

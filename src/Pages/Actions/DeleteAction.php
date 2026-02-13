@@ -3,6 +3,7 @@
 namespace GeoSot\FilamentEnvEditor\Pages\Actions;
 
 use Filament\Actions\Action;
+use Filament\Actions\Concerns\CanCustomizeProcess;
 use Filament\Support\Colors\Color;
 use Filament\Support\Enums\Size;
 use GeoSot\EnvEditor\Dto\EntryObj;
@@ -11,7 +12,9 @@ use GeoSot\FilamentEnvEditor\Pages\ViewEnv;
 
 class DeleteAction extends Action
 {
-    private EntryObj $entry;
+    use CanCustomizeProcess;
+
+    private string $entryKey;
 
     public static function getDefaultName(): ?string
     {
@@ -20,7 +23,7 @@ class DeleteAction extends Action
 
     public function setEntry(EntryObj $obj): static
     {
-        $this->entry = $obj;
+        $this->entryKey = $obj->key;
 
         return $this;
     }
@@ -32,16 +35,27 @@ class DeleteAction extends Action
         $this->icon('heroicon-o-trash');
         $this->hiddenLabel();
         $this->color(Color::Rose);
-        $this->action(function (ViewEnv $page) {
-            EnvEditor::deleteKey($this->entry->key);
-            $page->refresh();
-        });
-
         $this->size(Size::Small);
-        $this->tooltip(fn (): string => __('filament-env-editor::filament-env-editor.actions.delete.tooltip', ['name' => $this->entry->key]));
         $this->modalIcon('heroicon-o-trash');
-        $this->modalHeading(fn (): string => __('filament-env-editor::filament-env-editor.actions.delete.confirm.title', ['name' => $this->entry->key]));
         $this->outlined();
         $this->requiresConfirmation();
+
+        $this->tooltip(fn (): string => __(
+            'filament-env-editor::filament-env-editor.actions.delete.tooltip',
+            ['name' => $this->entryKey]
+        ));
+
+        $this->modalHeading(fn (): string => __(
+            'filament-env-editor::filament-env-editor.actions.delete.confirm.title',
+            ['name' => $this->entryKey]
+        ));
+
+        $this->action(function (ViewEnv $page) {
+            $result = EnvEditor::deleteKey($this->entryKey);
+
+            $result ? $this->success() : $this->failure();
+
+            $page->triggerRefresh();
+        });
     }
 }
