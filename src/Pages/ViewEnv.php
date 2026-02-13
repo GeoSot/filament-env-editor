@@ -58,17 +58,18 @@ class ViewEnv extends Page
         $tabs = Tabs::make('Tabs')
             ->tabs([
                 Tab::make(__('filament-env-editor::filament-env-editor.tabs.current-env.title'))
-                    ->schema($this->getFirstTab()),
+                    ->schema(fn () => $this->getFirstTab()),
                 Tab::make(__('filament-env-editor::filament-env-editor.tabs.backups.title'))
-                    ->schema($this->getSecondTab()),
+                    ->schema(fn () => $this->getSecondTab()),
             ]);
 
         return $schema
             ->components([$tabs]);
     }
 
-    public function refresh(): void
+    public function triggerRefresh(): void
     {
+        $this->dispatch('$refresh');
     }
 
     public static function getNavigationGroup(): ?string
@@ -124,15 +125,23 @@ class ViewEnv extends Page
                                 DeleteAction::make("delete_{$obj->key}")->setEntry($obj),
                             ])->alignEnd(),
                             TextEntry::make($obj->key)
-                                ->label('')
+                                ->hiddenLabel()
                                 ->state(new HtmlString("<code>{$obj->getAsEnvLine()}</code>"))
                                 ->columnSpan(4),
                         ])->columns(5);
-                    });
+                    })
+                    ->values();
 
-                return Section::make()->schema($fields->all())->columns(1);
+                if ($fields->isEmpty()) {
+                    return null;
+                }
+
+                return Section::make()
+                    ->schema($fields->all())
+                    ->columns(1);
             })
-            ->filter(fn (Section $s) => !empty($s->getChildComponents()))
+            ->filter()
+            ->values()
             ->all();
 
         $header = Group::make([
@@ -176,7 +185,7 @@ class ViewEnv extends Page
 
         $header = Group::make([
             Actions::make([
-                DownloadEnvFileAction::make('download_current}')->tooltip('')->outlined(false),
+                DownloadEnvFileAction::make('download_current')->tooltip('')->outlined(false),
                 UploadBackupAction::make('upload'),
                 MakeBackupAction::make('backup'),
             ])->alignEnd(),
