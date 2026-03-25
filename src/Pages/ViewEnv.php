@@ -164,7 +164,7 @@ class ViewEnv extends Page
     private function getSecondTab(): array
     {
         $data = EnvEditor::getAllBackUps()
-            ->map(function (BackupObj $obj) {
+            ->map(function (BackupObj $obj, int $index) {
                 return Group::make([
                     Actions::make([
                         DeleteBackupAction::make("delete_{$obj->name}")->setEntry($obj),
@@ -172,12 +172,12 @@ class ViewEnv extends Page
                         RestoreBackupAction::make("restore_{$obj->name}")->setEntry($obj->name),
                         ShowBackupContentAction::make("show_raw_content_{$obj->name}")->setEntry($obj),
                     ])->alignEnd(),
-                    TextEntry::make('name')
-                        ->label('')
+                    TextEntry::make("{$obj->name}-{$index}")
+                        ->hiddenLabel()
                         ->state(new HtmlString("<strong>{$obj->name}</strong>"))
                         ->columnSpan(2),
-                    TextEntry::make('created_at')
-                        ->label('')
+                    TextEntry::make("created_at-{$index}")
+                        ->hiddenLabel()
                         ->state($obj->createdAt->format('Y-m-d H:i:s'))
                         ->columnSpan(2),
                 ])->columns(5);

@@ -34,20 +34,25 @@ class RestoreBackupAction extends Action
         $this->color(Color::Teal);
 
         $this->size(Size::Small);
-        $this->tooltip(fn (): string => __('filament-env-editor::filament-env-editor.actions.restore-backup.tooltip',
-            ['name' => $this->file]));
+        $this->tooltip(fn (): string => __(
+            'filament-env-editor::filament-env-editor.actions.restore-backup.tooltip',
+            ['name' => $this->file]
+        ));
         $this->modalIcon('heroicon-s-bars-arrow-up');
-        $this->modalHeading(fn (
-        ): string => __('filament-env-editor::filament-env-editor.actions.restore-backup.confirm.title',
-            ['name' => $this->file]));
+        $this->modalHeading(fn (): string => __(
+            'filament-env-editor::filament-env-editor.actions.restore-backup.confirm.title',
+            ['name' => $this->file]
+        ));
 
         $this->action(function (ViewEnv $page) {
             EnvEditor::restoreBackUp($this->file);
-            $page->refresh();
+            $page->triggerRefresh();
+            $this->success();
         });
 
         $this->requiresConfirmation();
-        $this->modalSubmitActionLabel(fn (
-        ) => __('filament-env-editor::filament-env-editor.actions.restore-backup.modalSubmit'));
+        $this->modalSubmitActionLabel(
+            fn () => __('filament-env-editor::filament-env-editor.actions.restore-backup.modalSubmit')
+        );
     }
 }

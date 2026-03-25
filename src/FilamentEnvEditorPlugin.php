@@ -42,8 +42,7 @@ class FilamentEnvEditorPlugin implements Plugin
 
     public static function get(): static
     {
-        // @phpstan-ignore-next-line
-        return filament(app(static::class)->getId());
+        return static::make();
     }
 
     public function register(Panel $panel): void

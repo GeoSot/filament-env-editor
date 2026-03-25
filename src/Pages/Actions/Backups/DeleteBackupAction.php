@@ -41,7 +41,7 @@ class DeleteBackupAction extends Action
 
         $this->action(function (ViewEnv $page) {
             EnvEditor::deleteBackup($this->entry->name);
-            $page->refresh();
+            $page->triggerRefresh();
         });
 
         $this->requiresConfirmation();

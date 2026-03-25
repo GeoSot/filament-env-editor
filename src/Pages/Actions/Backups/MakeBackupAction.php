@@ -20,7 +20,7 @@ class MakeBackupAction extends Action
             $result = false;
             try {
                 $result = EnvEditor::backUpCurrent();
-                $page->refresh();
+                $page->triggerRefresh();
                 $this->successNotificationTitle(fn (
                 ): string => __('filament-env-editor::filament-env-editor.actions.backup.success.title'));
             } catch (EnvException $exception) {

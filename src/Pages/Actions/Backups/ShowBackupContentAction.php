@@ -38,7 +38,7 @@ class ShowBackupContentAction extends Action
         $this->size(Size::Small);
 
         $this->schema(fn () => [
-            TextEntry::make('')->state(new HtmlString("<pre>{$this->entry->rawContent}</pre>")),
+            TextEntry::make($this->entry->name)->state(new HtmlString("<pre>{$this->entry->rawContent}</pre>")),
         ]);
 
         $this->color(Color::Zinc);
